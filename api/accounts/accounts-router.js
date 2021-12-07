@@ -5,8 +5,8 @@ const router = require('express').Router()
 router.get('/', async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const data = await Accounts.getAll()
-    res.json(data)
+    const accounts = await Accounts.getAll()
+    res.json(accounts)
   }
   catch (error) {
     next(error)
@@ -16,10 +16,11 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-      console.log('get accounts by id')
+    const account = await Accounts.getById(req.params.id)
+    res.json(account)
   } 
   catch (err) {
-    next(err)
+    next({err})
   }
 })
 
@@ -55,8 +56,9 @@ router.delete('/:id', async (req, res, next) => {
 
 router.use((err, req, res, next) => { // eslint-disable-line
   // DO YOUR MAGIC
-  res.status(500 || 500).json({
-    message: err.message
+  res.status(err.status || 500).json({
+    message: err.message,
+    stack: err.stack,
   })
 })
 

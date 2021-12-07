@@ -1,13 +1,13 @@
 const db = require('../../data/db-config');
 
-const getAll = async () => {
-  const rows = await db('accounts')
+const getAll = () => {
+  const accounts = db('accounts')
     .select('id', 'name', 'budget')
-  return rows
+  return accounts
 }
 
 const getById = id => {
-  // DO YOUR MAGIC
+  return db('accounts').where('id', id).first()
 }
 
 const create = account => {
